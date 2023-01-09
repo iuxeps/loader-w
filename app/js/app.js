@@ -2,58 +2,65 @@
 const preloader = document.querySelector('#preloader');
 let weekDay = document.querySelector('.calendar-week');
 let calendarLogo = document.querySelector('.calendar-logo');
-let calendarDay = document.querySelector('.calendar-day');
-// let loadingText = document.querySelector('.loading');
+
 let secWrap = document.querySelector('.numbers');
-let secspan = document.querySelector('.numbers span');
+let secspan = document.querySelector('.numbers .num');
 let secspans = document.querySelectorAll('.num');
+
+let calHours = document.querySelector('.calendar-hours');
+let calMinutes = document.querySelector('.calendar-minutes');
+let calDay = document.querySelector('.calendar-day');
+let calWeek = document.querySelector('.calendar-week');
+let calYear = document.querySelector('.calendar-year');
 
 
 let sec = 1;
 const secspanHeight = secspan.clientHeight;
 
-secspans.forEach((el, i) => {
-    setTimeout(() => {
-
-        el.classList.add('active');
-        secWrap.style.transform = `translateY(-${secspanHeight * i}px)`;
-
-    }, (i + 1) * 1000)
-})
-
+while (sec <= 20) {
+    let span = document.createElement('span');
+    span.textContent = sec;
+    span.setAttribute("class", "num");
+    secWrap.appendChild(span);
+    sec++;
+}
+var i = 0;
+window.setInterval(function () {
+    i = i + 1;
+    secWrap.style.transform = `translateY(-${secspanHeight * i}px)`;
+}, 1000);
 
 
 setTimeout(calendarLogo.classList.add('active'), 1000);
 
 // Get Time
-const weekday = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 const d = new Date();
-let day = weekday[d.getDay()];
-weekDay.innerHTML = day;
+
+const theYear = d.getFullYear();
+calYear.innerHTML = theYear;
+
+const weekday = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+let week = weekday[d.getDay()];
+calWeek.innerHTML = week;
 
 let currentDay = d.getDate();
-
 if (currentDay <= 9) {
     let exactDay = '0' + currentDay
-    calendarDay.innerHTML = exactDay;
+    calDay.innerHTML = exactDay;
 } else {
-    calendarDay.innerHTML = currentDay;
+    calDay.innerHTML = currentDay;
 }
 
 function digitalClock() {
-    var timeHTML = document.getElementById('time-js');
 
     var d = new Date();
-    var date = d.getDate();
-    date = addZero(date);
     var hours = d.getHours();
     hours = addZero(hours);
     var minutes = d.getMinutes();
     minutes = addZero(minutes);
-    var seconds = d.getSeconds();
-    seconds = addZero(seconds);
-    // timeHTML.innerHTML = hours + ' : ' + minutes + ' : ' + seconds;
-    timeHTML.innerHTML = hours + ' : ' + minutes;
+
+    calHours.innerHTML = hours;
+    calMinutes.innerHTML = minutes;
 }
 
 function addZero(i) {
@@ -63,12 +70,4 @@ function addZero(i) {
     return i;
 }
 
-// setInterval(digitalClock, 1000); //каждый 1 сек
-setInterval(digitalClock, 10000); //каждый 10 сек
-
-// End Time
-
-
-
-
-
+setInterval(digitalClock, 1000);

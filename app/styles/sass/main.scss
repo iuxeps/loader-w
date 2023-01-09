@@ -31,24 +31,28 @@ body.loaded #preloader {
     grid-template-columns: 578px 1fr;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
-
+    caret-color: transparent;
+    cursor: default;
 
     .numbers {
         display: grid;
         grid-template-columns: 1fr;
         transition: all 0.5s ease;
-        margin-top: -120px;
+        // margin-top: -120px;
 
         span {
             display: block;
-            font-size: 300px;
+            font-size: 25vh;
             line-height: 100%;
             text-align: center;
             color: #fff;
-            padding: 50px 0;
-
+            // padding: 50px 0;
+            height: 33.33vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
+
     }
 
     .loader-bg {
@@ -108,13 +112,6 @@ body.loaded #preloader {
         }
     }
 
-    #time-js {
-        font-size: 36px;
-        color: #fff;
-        text-align: center;
-        margin-top: 16px;
-    }
-
     .calendar {
         background: #151515;
         box-shadow: 0px 24px 44px rgba(0, 0, 0, 0.25);
@@ -170,11 +167,29 @@ body.loaded #preloader {
         &-time {
             display: flex;
             justify-content: center;
+            gap: 26px;
             height: 128px;
+            position: relative;
+
+            &::after {
+                content: "";
+                background-image: url('../img/time-dots.svg');
+                background-repeat: no-repeat;
+                color: #fff;
+                font-size: 90px;
+                font-weight: bold;
+                line-height: normal;
+                position: absolute;
+                top: 50%;
+                right: 50%;
+                transform: translate(50%, -50%);
+                width: 10px;
+                height: 32px;
+            }
         }
 
-        &-week {
-            width: 224px;
+        &-hours {
+            width: 128px;
             height: 100%;
             text-transform: uppercase;
             font-size: 72px;
@@ -187,8 +202,8 @@ body.loaded #preloader {
             box-shadow: inset 0px 54px 20px rgba(0, 0, 0, 0.1);
         }
 
-        &-day {
-            width: 141px;
+        &-minutes {
+            width: 128px;
             height: 100%;
             background: #E1A346;
             font-size: 72px;
@@ -199,39 +214,91 @@ body.loaded #preloader {
             justify-content: center;
         }
 
+        &-days {
+            font-weight: 400;
+            font-size: 32px;
+            line-height: 37px;
+            color: #FFFFFF;
+            text-align: center;
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 42px;
+        }
+
+        &-week,
+        &-day {
+            position: relative;
+
+            &::after {
+                content: "";
+                border-radius: 50%;
+                width: 10px;
+                height: 10px;
+                background: #E1A346;
+                display: block;
+                position: absolute;
+                top: 50%;
+                transform: translate(26px, -50%);
+                right: 0;
+            }
+        }
+
+
     }
 
     .loading {
+        &::selection {
+            background-color: transparent;
+            color: inherit;
+        }
+
         display: inline-block;
-        font-family: 'Montserrat', sans-serif;
+        font-family: 'Montserrat',
+        sans-serif;
         font-style: normal;
         font-weight: 400;
         font-size: 48px;
         line-height: 56px;
         color: #696969;
-        transition: all 3s ease-in;
 
-        &:before {
-            content: attr(data-text);
-            position: absolute;
-            overflow: hidden;
-            white-space: nowrap;
-            width: 0;
-            color: #E1A346;
-            animation: fill-1 2s infinite;
-            transition: 2s ease-in;
-        }
+        letter-spacing: 0;
+        padding: .25em 0 .325em;
+        display: block;
+        margin: 0 auto;
+        text-shadow: 0 0 80px rgba(255, 255, 255, .5);
+
+        /* Clip Background Image */
+
+        background: url(../img/loading-bg.png) repeat-y;
+        -webkit-background-clip: text;
+        background-clip: text;
+
+        /* Animate Background Image */
+
+        -webkit-text-fill-color: transparent;
+        -webkit-animation: aitf 30s linear infinite;
+
+        /* Activate hardware acceleration for smoother animations */
+
+        -webkit-transform: translate3d(0, 0, 0);
+        -webkit-backface-visibility: hidden;
+
     }
 
-    @keyframes fill-1 {
-        from {
-            width: 0;
+    @-webkit-keyframes aitf {
+        0% {
+            background-position: 0% 50%;
         }
 
-        to {
-            width: 100%;
+        100% {
+            background-position: 100% 50%;
         }
+
     }
+
+
 }
 
 @media screen and (max-width: 1280px) {
@@ -253,7 +320,6 @@ body.loaded #preloader {
         }
 
         .numbers {
-            margin-top: 50px;
 
             span {
                 font-size: 180px;
@@ -294,8 +360,6 @@ body.loaded #preloader {
         grid-template-columns: 300px 1fr;
 
         .numbers {
-            margin-top: 165px;
-
             span {
                 font-size: 100px;
             }
@@ -303,14 +367,16 @@ body.loaded #preloader {
     }
 }
 
+
 @media screen and (max-width: 640px) {
     #preloader {
         display: flex;
         flex-direction: column-reverse;
 
 
+
         .calendar-logo {
-            max-width: 200px;
+            max-width: 180px;
         }
 
         .calendar {
@@ -318,6 +384,7 @@ body.loaded #preloader {
             &-inner {
                 max-width: 100%;
             }
+
             &-time {
                 height: 80px;
                 width: 100%;
@@ -338,17 +405,41 @@ body.loaded #preloader {
             }
         }
 
-
-        .numbers {
-            margin-top: 100px;
-        }
-
         .loading {
             font-size: 26px;
         }
 
-        .sekun:before {
-            width: 14px;
+        .sekun {
+            height: 40%;
+
+            &::before {
+                width: 8px;
+            }
+
+            &::after {
+                height: 6px;
+            }
+        }
+
+        .calendar-hours,
+        .calendar-minutes {
+            font-size: 40px;
+        }
+
+        .calendar-days {
+            gap: 40px;
+        }
+
+        .calendar-day,
+        .calendar-week,
+        .calendar-year {
+            font-size: 26px;
+            width: auto;
+        }
+
+        .numbers .num {
+            font-size: 100px;
+            height: 27vh;
         }
     }
 }
